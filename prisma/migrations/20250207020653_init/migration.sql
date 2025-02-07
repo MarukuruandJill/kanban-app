@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Kanban" ALTER COLUMN "deadLine" SET DATA TYPE TEXT;
