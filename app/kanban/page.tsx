@@ -1,5 +1,4 @@
 import { Kanban } from "../lib/interface/Kanban";
-// import { kanbans } from "../lib/place-holder";
 import KanbanBoard from "../ui/KanbanBoard";
 
 async function getKanbans(): Promise<Kanban[]> {
@@ -57,5 +56,3 @@ export default async function kanbanList() {
     )
 
 }
-
-//grid gap-6 md:grid-cols-2 lg:grid-cols-3

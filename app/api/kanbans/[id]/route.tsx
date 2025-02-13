@@ -21,6 +21,18 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     }
 }
 
-// edit機能用
-export async function PUT() {
+// // edit機能用
+export async function PUT(request: Request, { params }: { params: { id: string } }) {
+    try {
+        const data = await request.json();
+        const updatedKanban = await prisma.kanban.update({
+            where: { id: Number(params.id) },
+            data: data,
+        });
+
+        return NextResponse.json(updatedKanban);
+    } catch (error) {
+        console.error('Error updating kanban:', error);
+        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    }
 }

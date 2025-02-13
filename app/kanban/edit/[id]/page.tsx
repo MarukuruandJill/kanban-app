@@ -1,19 +1,61 @@
 'use client';
-// import KanbanBoard from "@/app/ui/KanbanBoard";
+// import { Kanban } from "@prisma/client";
+import {useParams, useRouter} from "next/navigation";
 import { useState } from "react";
-// import { useRouter } from "next/navigation";
 
 
-export default function NewKanban() {
+export default function EditKanban() {
+    const params = useParams();
+    const kanbanId = params.id
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [status, setStatus] = useState("ToDo");
     const [deadLine, setDeadLine] = useState<Date>(new Date());
-    // const router = useRouter();
+    const router = useRouter();
+
+    // useEffect(() => {
+    //     const fetchKanban = async () => {
+    //         try {
+    //             const res = await fetch(`/api/kanbans/${kanbanId}`, { cache: 'no-store' });
+    //             if (!res.ok) throw new Error('Failed to fetch kanban');
+
+    //             const data = await res.json();
+    //             setTitle(data.title ?? "");
+    //             setContent(data.content ?? "");
+    //             setStatus(data.status ?? "ToDO");
+    //             setDeadLine(data.deadLine ?? ""); // 日付部分のみ取得
+    //         } catch (error) {
+    //             console.error(error);
+    //             alert('Failed to load kanban data.');
+    //         }
+    //     };
+
+    //     fetchKanban();
+    // }, [kanbanId]);
+    
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log("Edited Kanban: ", { title, content, status, deadLine });
+        try {
+            const response = await fetch(`../../api/kanbans/${kanbanId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ title, content, status, deadLine }),
+            });
+            // console.log("api fetched")
+            if (response.ok) {
+                router.push('/kanban');
+                router.refresh();
+                } else {
+                    throw new Error('Failed to edit kanban');
+                }
+        } catch(error) {
+            console.error('Error creating kanban: ', error);
+            alert('Failed to edit kanban. Please try again.');    
+        }
     }
 
     return (
@@ -34,13 +76,11 @@ export default function NewKanban() {
                 <div>
                     <label  htmlFor="content" className="block mb-2 text-xl">Content</label>
                     <textarea 
-                        // type="text"
                         id="content"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         className="border rounded-lg w-full px-3 py-2"
                         rows={5}
-                        // cols={30}
                         required
                     />
                 </div>
@@ -61,7 +101,6 @@ export default function NewKanban() {
                     <input
                         type="date"
                         id="deadLine"
-                        // value={deadLine}
                         onChange={(e) => setDeadLine(new Date(e.target.value))}
                         className="border rounded-lg w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
                         required
@@ -70,7 +109,7 @@ export default function NewKanban() {
                 <div className="flex justify-end">
                     <button
                         type="submit"
-                        className="border rounded-lg m-2 bg-sky-500 text-white p-2">
+                        className="border rounded-lg m-2 bg-sky-500 text-white p-2 hover:bg-sky-700">
                             Submit
                     </button>
                 </div>

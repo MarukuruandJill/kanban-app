@@ -52,13 +52,11 @@ export default function NewKanban() {
                 <div>
                     <label  htmlFor="content" className="block mb-2 text-xl">Content</label>
                     <textarea 
-                        // type="text"
                         id="content"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         className="border rounded-lg w-full px-3 py-2"
                         rows={5}
-                        // cols={30}
                         required
                     />
                 </div>
@@ -79,7 +77,6 @@ export default function NewKanban() {
                     <input
                         type="date"
                         id="deadLine"
-                        // value={deadLine}
                         onChange={(e) => setDeadLine(new Date(e.target.value))}
                         className="border rounded-lg w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
                         required
@@ -88,7 +85,7 @@ export default function NewKanban() {
                 <div className="flex justify-end">
                     <button
                         type="submit"
-                        className="border rounded-lg m-2 bg-sky-500 text-white p-2">
+                        className="border rounded-lg m-2 bg-sky-500 text-white p-2 hover:bg-sky-700">
                             Submit
                     </button>
                 </div>
